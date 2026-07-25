@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>黑金至尊 · 赵宇轩 · 摸鱼宇宙</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', system-ui, sans-serif;
+            background: #0b0a0f;
+            color: #f2e9c7;
+            padding: 1.8rem 1rem;
+            transition: background 0.2s;
+        }
+        .container { max-width: 1220px; margin: 0 auto; }
+
+        /* 黑金基调 */
+        .gold-text { color: #e5c07b; }
+        .gold-border { border-color: #c9a84c; }
+        .card {
+            background: #17151f;
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px -6px #000000cc, 0 0 0 1px #3f3522 inset;
+            border: 1px solid #b8963e;
+            transition: all 0.2s;
+        }
+        .card:hover { box-shadow: 0 20px 40px -8px #000, 0 0 0 1px #e5c07b inset; transform: translateY(-3px); }
+
+        .glitch {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #f7e05e, #c9a84c, #f7e05e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px #b8963e55;
+            letter-spacing: 1px;
+        }
+        .sub {
+            background: #2a2336;
+            padding: 0.3rem 1.4rem;
+            border-radius: 60px;
+            display: inline-block;
+            border: 1px solid #b8963e;
+            color: #eedbaa;
+            font-weight: 500;
+        }
+        .btn-gold, .btn-copy, .btn-primary, .btn-achievement {
+            background: #2a2336;
+            border: 1px solid #c9a84c;
+            color: #f2e9c7;
+            padding: 0.5rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 0 6px #b8963e33;
+            margin: 0.2rem;
+        }
+        .btn-gold:hover, .btn-copy:hover, .btn-primary:hover, .btn-achievement:hover {
+            background: #c9a84c;
+            color: #0b0a0f;
+            box-shadow: 0 0 20px #e5c07b77;
+            transform: scale(0.97);
+        }
+        .btn-gold:active { transform: scale(0.93); }
+
+        .tag {
+            display: inline-block;
+            background: #2a2336;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            border: 1px solid #b8963e;
+            color: #eedbaa;
+            cursor: pointer;
+            margin: 0.15rem;
+        }
+        .tag.active { background: #c9a84c; color: #0b0a0f; border-color: #f7e05e; }
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .project-item {
+            background: #201d2b;
+            border-radius: 2rem;
+            padding: 1.2rem;
+            border: 1px solid #b8963e55;
+            transition: 0.15s;
+            cursor: pointer;
+            box-shadow: 0 6px 12px #00000055;
+        }
+        .project-item:hover { background: #2f2842; border-color: #e5c07b; transform: scale(0.97); }
+
+        .marquee-wrapper {
+            background: #17151f;
+            border: 1px solid #b8963e;
+            border-radius: 60px;
+            padding: 0.6rem 0;
+            margin-bottom: 1.8rem;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 0 20px #b8963e33;
+        }
+        .marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scrollText 26s linear infinite;
+            font-weight: 500;
+            color: #eedbaa;
+            padding-right: 2rem;
+        }
+        .marquee span { margin-right: 3rem; }
+        .marquee span::before { content: "⚜️ "; }
+        @keyframes scrollText { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+        .marquee-wrapper:hover .marquee { animation-play-state: paused; }
+
+        .stat-card {
+            background: #201d2b;
+            border-radius: 1.8rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #b8963e55;
+            transition: 0.1s;
+            cursor: default;
+        }
+        .stat-number { font-size: 2.4rem; font-weight: 800; color: #e5c07b; text-shadow: 0 0 12px #b8963e66; }
+        .meter-bar { background: #342d42; border-radius: 40px; height: 10px; overflow: hidden; margin: 0.5rem 0; }
+        .meter-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #f7e05e); width: 0%; transition: width 0.3s; }
+
+        .academic-paper { background: #1f1b2a; border: 1px solid #c9a84c; }
+        .philosophy { background: #252035; border-left: 6px solid #e5c07b; padding: 1rem; border-radius: 1.2rem; font-style: italic; }
+
+        .word-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .word-modal-content {
+            background: #1a1725;
+            width: 92%; max-width: 800px; max-height: 85vh;
+            border-radius: 2.5rem;
+            padding: 1.8rem;
+            border: 1px solid #c9a84c;
+            box-shadow: 0 30px 50px #000;
+            overflow-y: auto;
+            color: #f2e9c7;
+        }
+        .close-modal { font-size: 2.2rem; background: none; border: none; color: #e5c07b; cursor: pointer; }
+        .vote-option { background: #252035; border-radius: 60px; padding: 8px 16px; margin: 8px 0; cursor: pointer; border: 1px solid #b8963e55; }
+        .vote-bar { background: #c9a84c; border-radius: 20px; height: 8px; width: 0%; transition: width 0.2s; }
+        .results { background: #120f1b; padding: 14px; border-radius: 1.5rem; border: 1px solid #b8963e; max-height: 380px; overflow-y: auto; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.85rem; }
+        .floating-m-key {
+            position: fixed; bottom: 24px; right: 24px;
+            background: #2a2336; border: 1px solid #e5c07b;
+            color: #eedbaa; border-radius: 60px; padding: 8px 18px;
+            font-weight: bold; cursor: pointer; z-index: 1000;
+            box-shadow: 0 0 30px #b8963e44;
+        }
+        .achievement-badge { background: #2a2336; border: 1px solid #e5c07b; border-radius: 60px; padding: 4px 16px; margin: 5px; display: inline-flex; align-items: center; font-weight: bold; color: #f7e05e; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1rem; }
+        .theme-toggle { display: flex; gap: 12px; justify-content: flex-end; margin-bottom: 1.4rem; }
+        .theme-btn, .bg-switch-btn {
+            background: #17151f; border: 1px solid #b8963e; border-radius: 60px;
+            padding: 0.3rem 1.2rem; cursor: pointer; color: #eedbaa;
+            font-weight: 500; box-shadow: 0 0 10px #b8963e22;
+        }
+        .theme-btn:hover, .bg-switch-btn:hover { background: #c9a84c; color: #0b0a0f; }
+
+        body.dark-mode .card { background: #12101b; border-color: #b8963e; }
+        body.dark-mode .stat-card, body.dark-mode .project-item { background: #181522; }
+        body.dark-mode .results { background: #0f0d16; }
+        footer { text-align: center; opacity: 0.6; font-size: 0.7rem; margin-top: 2rem; color: #b8963e; }
+        @media (max-width: 680px) { .glitch { font-size: 2.2rem; } }
+        .toast-msg {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #1a1725; border: 1px solid #e5c07b; color: #f7e05e;
+            padding: 0.6rem 1.4rem; border-radius: 60px; backdrop-filter: blur(8px);
+            z-index: 999; opacity: 0; transition: 0.2s; pointer-events: none;
+            font-weight: 500; box-shadow: 0 0 40px #b8963e55;
+        }
+        .toast-msg.show { opacity: 1; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="theme-toggle">
+        <div class="bg-switch-btn" id="bgSwitchBtn">🎨 背景切换</div>
+        <div class="theme-btn" id="themeSwitcher">🌙 暗金</div>
+    </div>
+
+    <div class="marquee-wrapper"><div class="marquee" id="marqueeText">
+        <span>黑金至尊 · 赵宇轩 · 无边界摸鱼美学</span>
+        <span>112家大型公司合作伙伴 · 亚洲伊斯坦布尔传奇CTO</span>
+        <span>高级摸鱼工程师 · 点击卡片有惊喜 · 复制QQ送虚拟拥抱</span>
+        <span>本站已被收录进《宇宙级幽默博物馆》</span>
+        <span>黑金至尊 · 赵宇轩 · 无边界摸鱼美学</span>
+        <span>112家大型公司合作伙伴 · 亚洲伊斯坦布尔传奇CTO</span>
+        <span>高级摸鱼工程师 · 点击卡片有惊喜 · 复制QQ送虚拟拥抱</span>
+        <span>本站已被收录进《宇宙级幽默博物馆》</span>
+    </div></div>
+
+    <!-- 主卡 -->
+    <div class="card hero"><div class="glitch">赵宇轩 · 野生全栈</div>
+        <div class="sub">⚜️ 油二学生 · 无边界摸鱼美学奠基人</div>
+        <p style="margin-top:0.5rem;">你好 我是赵宇轩，一名 <del>被代码耽误的喜剧演员</del> 油二学生。<br>我将对<strong>设计的强调提升至前所未有的高度</strong>，前瞻性地运用<strong>0个手法</strong>诠释无边界美学。<br><span style="background:#2a2336; padding:0 10px; border-radius:30px; border:1px solid #b8963e;">我相信，兼具强大功能与极致设计的系统 —— 莓用的系统！⚜️</span></p>
+    </div>
+
+    <!-- 论文 -->
+    <div class="card academic-paper">
+        <h2>📄 赵宇轩 · 预印本 <span style="font-size:0.7rem; color:#b8963e;">(幽默自然收录)</span></h2>
+        <p><strong>标题：</strong>《基于0个手法的无边界美学在摸鱼工程中的实践与展望》</p>
+        <div class="meter-bar"><div class="meter-fill" id="academicMeter" style="width:73%;"></div></div>
+        <p>📊 论文影响力指数: <strong id="impactScore">73</strong> / 100 &nbsp; <button class="btn-gold" id="citeMeBtn">📑 一键引用</button></p>
+        <button class="btn-gold" id="generateBullshitBtn">🤖 生成学术废话</button>
+        <div id="bullshitArea" style="margin-top:1rem; padding:1rem; background:#120f1b; border-radius:1.5rem; border:1px solid #b8963e55; font-style:italic;">点击按钮，生成顶会级废话……</div>
+    </div>
+
+    <!-- 仪表盘 -->
+    <div class="card"><h2>📈 实时摸鱼指数 · 伪科学统计</h2>
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card"><div class="stat-number" id="prodVal">0</div><div>生产力 (😴)</div><div class="meter-bar"><div class="meter-fill" id="prodFill" style="width:0%"></div></div></div>
+            <div class="stat-card"><div class="stat-number" id="humorVal">0</div><div>幽默浓度 (%)</div><div class="meter-bar"><div class="meter-fill" id="humorFill" style="width:0%"></div></div></div>
+            <div class="stat-card"><div class="stat-number" id="boundVal">0</div><div>无边界指数</div><div class="meter-bar"><div class="meter-fill" id="boundFill" style="width:0%"></div></div></div>
+        </div>
+        <button class="btn-gold" id="randomStatsBtn">🎲 随机刷新（摸鱼强相关）</button>
+        <p style="font-size:0.65rem; margin-top:0.5rem; opacity:0.7;">*数据来自“亚洲伊斯坦布尔摸鱼总局”</p>
+    </div>
+
+    <!-- 运势 -->
+    <div class="card"><h2>🔮 今日摸鱼运势 · 玄学</h2>
+        <div id="fortuneText" style="font-size:1.4rem; font-weight:bold; background:#252035; padding:14px; border-radius: 2.5rem; border:1px solid #b8963e;">✨ 点击下方获取箴言 ✨</div>
+        <button class="btn-gold" id="genFortuneBtn" style="margin-top:12px;">🍀 抽取今日运势</button>
+    </div>
+
+    <!-- 项目 -->
+    <div class="card"><h2>⚜️ 莓用宇宙 · 离谱项目</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0;">
+            <span class="tag filter-tag active" data-filter="all">✨ 全部 (4)</span>
+            <span class="tag filter-tag" data-filter="frontend">🖥️ 前端花活</span>
+            <span class="tag filter-tag" data-filter="design">🎨 设计玄学</span>
+            <span class="tag filter-tag" data-filter="backend">🧠 后端玄学</span>
+        </div>
+        <div class="project-grid" id="projectList"></div>
+        <p style="font-size:0.7rem; margin-top:1rem;">*点击卡片触发专业反馈</p>
+    </div>
+
+    <!-- 成就 -->
+    <div class="card"><h2>🏅 摸鱼成就墙 · 彩蛋</h2>
+        <div id="achievementList" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
+        <button class="btn-gold" id="clearAchieveBtn" style="background:#2f2842;">🗑️ 重置成就</button>
+    </div>
+
+    <!-- 时间线 -->
+    <div class="card"><h2>📅 亚洲伊斯坦布尔传奇</h2>
+        <p>以下经历完全真实（在另一个平行宇宙）</p>
+        <ul style="margin:1rem 0 0 1.5rem; line-height:1.8;">
+            <li>🏆 2013年1月–11月 / 亚洲伊斯坦布尔 —— 同时担任初/中/高级软件工程师</li>
+            <li>🍎 苹果官网开发（仅用H5标签 + 一腔热血）</li>
+            <li>📰 今日头条H5开发 —— 确保每条新闻卡3秒加载</li>
+            <li>👔 巴宝莉商城系统开发 —— 格子纹按钮，优雅永不过时</li>
+            <li>🤝 合作112家“大型公司”（含小区超市和煎饼摊）</li>
+        </ul>
+        <button class="btn-gold" id="crazyBtn">🎭 一键“我超努力”</button>
+    </div>
+
+    <!-- 评价 -->
+    <div class="card"><h2>🏆 权威评价 · 来自未来</h2>
+        <div class="philosophy">“立足全面屏时代，探索全新无边界美学。让系统美学的阐释更符合全面屏时代特点……”<br>—— <strong>赵宇轩（自己评价自己）</strong></div>
+        <div class="philosophy" style="margin-top:1rem; border-left-color:#c9a84c;">“我一看到他那个后台系统，就知道‘莓用’是真的莓用，但我居然看完了。”<br>—— <strong>提摩西·路人甲</strong></div>
+    </div>
+
+    <!-- 投票 -->
+    <div class="card"><h2>🗳️ 摸鱼隐蔽术 · 社区调研</h2>
+        <div id="voteContainer"></div>
+        <p style="font-size:0.7rem">*点击选项贡献票数，本地存储</p>
+    </div>
+
+    <!-- 更新日志 -->
+    <div class="card"><h2>📡 更新日志 · 假装努力</h2>
+        <pre style="background:#120f1b; padding:12px; border-radius:1.8rem; border:1px solid #b8963e55; font-size:0.7rem;">[v3.0.0] 黑金至尊主题 · 全面暗金奢华\n[v2.5.0] 新增摸鱼运势、成就墙、老板键、独立单词本\n[v2.3.0] 走马灯文案增加“防眩晕研究失败”\n[v2.0.0] 无边界美学初版</pre>
+    </div>
+
+    <!-- 单词本入口 -->
+    <div class="card"><h2>📘 单词中英对照 · 完整词库 <button class="btn-gold" id="openWordModalBtn" style="margin-left:1rem;">📖 打开单词本</button></h2>
+        <p>点击打开独立单词管理器，支持搜索、添加、导出，暗色适配。词库包含300+完整词条。</p>
+    </div>
+
+    <!-- 联系 -->
+    <div class="card" style="text-align:center;"><h2>📞 商业互吹联系</h2>
+        <p>QQ号: <strong id="qqNumber" style="color:#e5c07b;">3939981629</strong></p>
+        <button class="btn-gold" id="copyQQBtn">📋 复制QQ，交友</button>
+        <div style="margin-top:1rem;"><input type="text" id="msgInput" placeholder="夸我一句，模拟回复" style="padding:0.5rem 1rem; border-radius:60px; border:1px solid #b8963e; background:#120f1b; color:#f2e9c7; width:200px;">
+        <button class="btn-gold" id="fakeReplyBtn">🎤 彩虹屁</button></div>
+    </div>
+    <footer>© 赵宇轩 · 黑金至尊版 · 摸鱼全功能 | 单词独立弹窗 | 所有数据虚构</footer>
+</div>
+
+<!-- 单词模态框 -->
+<div id="wordModal" class="word-modal">
+    <div class="word-modal-content">
+        <div class="word-modal-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>📖 单词本 · 中英对照 (完整)</h2>
+            <button class="close-modal" id="closeWordModalBtn">&times;</button>
+        </div>
+        <div style="margin-bottom:1rem;">
+            <input type="text" id="modalSearchInput" placeholder="🔍 搜索英文或中文" style="width:100%; padding:10px; border-radius:60px; background:#120f1b; border:1px solid #b8963e; color:#f2e9c7;">
+            <div style="display:flex; justify-content:space-between; margin-top:12px; flex-wrap:wrap; gap:6px;">
+                <div>📊 总词条：<strong id="modalTotalCount">0</strong> &nbsp; <span id="modalDisplayCount">全部</span></div>
+                <div><button class="btn-gold" id="modalToggleAddBtn">➕ 添加</button>
+                <button class="btn-gold" id="modalResetBtn">🔄 重置</button>
+                <button class="btn-gold" id="modalExportBtn">📥 导出</button></div>
+            </div>
+        </div>
+        <div id="modalAddPanel" style="display:none; background:#252035; padding:12px; border-radius:2rem; margin-bottom:16px; border:1px solid #b8963e;">
+            <div><strong>✏️ 添加单词</strong><button id="modalCloseAddBtn" style="float:right; background:none; border:none; color:#e5c07b; font-size:24px; cursor:pointer;">&times;</button></div>
+            <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;"><input type="text" id="modalNewWordEn" placeholder="英文" style="flex:1; padding:8px; border-radius:40px; background:#120f1b; border:1px solid #b8963e; color:#f2e9c7;"><input type="text" id="modalNewWordZh" placeholder="中文" style="flex:1; padding:8px; border-radius:40px; background:#120f1b; border:1px solid #b8963e; color:#f2e9c7;"><button class="btn-gold" id="modalSaveWordBtn">保存</button></div>
+        </div>
+        <div class="results" id="modalResults">加载中...</div>
+        <p style="font-size:11px; margin-top:12px; opacity:0.7;">✨ 自动排序归组，支持增删改查，词库源自完整版</p>
+    </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">⚜️ 提示</div>
+<div class="floating-m-key" id="bossKeyBtn">🎩 老板键(M)</div>
+
+<script>
+    function showToast(msg) { let t=document.getElementById('toastMsg'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+    let achievementCount = { bullshitGen:0, themeToggle:0, qqCopy:0, statRandom:0 };
+    function updateAchievements() {
+        let html='';
+        if(achievementCount.bullshitGen>=10) html+='<span class="achievement-badge">🏅 学术泥石流(废话10连)</span>';
+        if(achievementCount.themeToggle>=5) html+='<span class="achievement-badge">☯️ 阴阳师(切模式5次)</span>';
+        if(achievementCount.qqCopy>=10) html+='<span class="achievement-badge">📢 社交牛杂症(复制QQ10次)</span>';
+        if(achievementCount.statRandom>=5) html+='<span class="achievement-badge">🎲 伪科学先知(刷新5次)</span>';
+        document.getElementById('achievementList').innerHTML = html || '<span>✨ 尚未达成成就，多点击交互~</span>';
+        localStorage.setItem('achievements', JSON.stringify(achievementCount));
+    }
+    function loadAchievements() { let saved=localStorage.getItem('achievements'); if(saved){ let a=JSON.parse(saved); achievementCount=a; updateAchievements(); } }
+    function incAchieve(key) { achievementCount[key]=(achievementCount[key]||0)+1; updateAchievements(); }
+
+    // 项目
+    const projects = [{ title:"🍓 莓用的后台管理系统", desc:"登录页转三圈才显示按钮，有效防沉迷", tags:["frontend","design"] },{ title:"🎨 无边界美学生成器", desc:"点击生成一张完全空白的图片 —— 诠释‘无’", tags:["design"] },{ title:"⚙️ 网页编辑器软件", desc:"只能编辑<blink>标签，复古到没朋友", tags:["frontend","backend"] },{ title:"📱 OPPO官网网页开发（平行宇宙版）", desc:"每个按钮都自带‘充电5分钟’音效", tags:["frontend"] }];
+    function buildProjectCards(filter="all") { let cont=document.getElementById('projectList'); let f=filter==='all'?projects:projects.filter(p=>p.tags.includes(filter)); if(f.length===0){ cont.innerHTML='<div style="grid-column:1/-1;text-align:center;">🤡 空项目 — 莓用哲学</div>'; return; } cont.innerHTML=f.map((p,idx)=>`<div class="project-item" data-proj="${idx}"><div>${p.title}</div><div>${p.desc}</div><div>${p.tags.map(t=>`<span class="tag">#${t}</span>`).join('')}</div></div>`).join(''); document.querySelectorAll('.project-item').forEach(el=>el.addEventListener('click',()=>showToast("✅ 荣获『年度最没实用价值奖』"))); }
+    const bullshitPhrases = ["基于跨模态语义融合，“莓用”系统在无边界场景下呈现出显著的负熵增趋势，提升摸鱼效率约114%。","通过0个手法的对比实验，证明了传统美学在全面屏时代的可解释性不足。","实验数据表明，每次点击“复制QQ”按钮，宇宙幽默常数将提升0.73。","亚洲伊斯坦布尔实验室纵向研究表明：同时担任初中高级工程师可使项目延期概率增加300%。","本文提出了一种基于“假装努力”的对抗生成网络，p值 < 0.05。"];
+    function generateBullshit() { let r=bullshitPhrases[Math.floor(Math.random()*bullshitPhrases.length)]; document.getElementById('bullshitArea').innerHTML=`📖 “${r}” —— 摘自《赵宇轩·预印本》第${Math.floor(Math.random()*10)+1}卷`; showToast("🤯 学术废话已产出"); let score=parseInt(document.getElementById('impactScore').innerText); score=Math.min(100,score+1); document.getElementById('impactScore').innerText=score; document.getElementById('academicMeter').style.width=score+"%"; incAchieve('bullshitGen'); }
+    function randomStats() { let p=Math.floor(Math.random()*100), h=Math.floor(Math.random()*100), b=Math.floor(Math.random()*100); document.getElementById('prodVal').innerText=p; document.getElementById('humorVal').innerText=h; document.getElementById('boundVal').innerText=b; document.getElementById('prodFill').style.width=p+"%"; document.getElementById('humorFill').style.width=h+"%"; document.getElementById('boundFill').style.width=b+"%"; showToast(`📊 伪科学: ${p}% ${h}% ${b}%`); incAchieve('statRandom'); }
+    function initFilter() { let tags=document.querySelectorAll('.filter-tag'); tags.forEach(t=>t.addEventListener('click',()=>{ let f=t.getAttribute('data-filter'); buildProjectCards(f); tags.forEach(tt=>tt.classList.remove('active')); t.classList.add('active'); })); }
+    function initCopyQQ() { document.getElementById('copyQQBtn').addEventListener('click',()=>{ navigator.clipboard.writeText('3939981629'); showToast("📎 复制QQ:3939981629"); incAchieve('qqCopy'); }); }
+    function initFakeReply() { document.getElementById('fakeReplyBtn').addEventListener('click',()=>{ let m=document.getElementById('msgInput').value.trim(); if(m) showToast(`🤖 赵宇轩分身：「${m} —— 说得对，但我选择加一个bug」`); else showToast("说点好听的嘛"); }); }
+    function initCrazyBtn() { document.getElementById('crazyBtn').addEventListener('click',()=>{ showToast("💥 触发『我超努力』：所有项目经验+10年，薪水翻倍（虚拟币）"); }); }
+    let bgIndex=0; const bgStyles=['#0b0a0f','#1a1420','#0f0d1a','#1f1825'];
+    function switchBg() { bgIndex=(bgIndex+1)%bgStyles.length; document.body.style.background=bgStyles[bgIndex]; showToast(`🎨 背景 #${bgIndex+1}`); }
+    let bossMode=false;
+    function toggleBossMode() { bossMode=!bossMode; if(bossMode){ document.body.classList.add('boss-mode'); showToast("🤫 老板键激活：敏感内容模糊"); } else { document.body.classList.remove('boss-mode'); showToast("😎 恢复真容"); } }
+    const fortunes=["🐟 宜：假装review代码，实则刷帖；忌：坐过道","🍵 今日摸鱼指数 Max，键盘敲得震天响","📉 运势低迷：可能被cue，提前准备『这个bug我再看看』","🎉 鸿运当头：领导出差，全天自由呼吸","🧘 玄学建议：桌面开十个终端窗口，没人敢打扰"];
+    function genFortune() { let f=fortunes[Math.floor(Math.random()*fortunes.length)]; document.getElementById('fortuneText').innerHTML=`🔮 ${f}`; showToast("运势已降临"); }
+    let votes = JSON.parse(localStorage.getItem('fishVotes')) || { option1:0, option2:0, option3:0, option4:0 };
+    const voteOptions = { option1:"侧脸深思状", option2:"紧盯屏幕皱眉", option3:"快速切换窗口", option4:"假装在开会" };
+    function renderVotes() { let total=Object.values(votes).reduce((a,b)=>a+b,0); let html=''; for(let [key,label] of Object.entries(voteOptions)) { let percent=total===0?0:(votes[key]/total*100); html+=`<div class="vote-option" data-key="${key}">${label} (${votes[key]}票)<div class="vote-bar" style="width:${percent}%"></div></div>`; } document.getElementById('voteContainer').innerHTML=html; document.querySelectorAll('.vote-option').forEach(el=>el.addEventListener('click',(e)=>{ let k=el.dataset.key; votes[k]++; localStorage.setItem('fishVotes',JSON.stringify(votes)); renderVotes(); showToast("投票成功！"); })); }
+
+    // ------- 完整词库 (黑金保留) -------
+    const FULL_WORD_RAW = `A\naccept 接受\naccessible 易接近的\naccompany 陪伴\naccount for 占比\naccurate 准确的\nachievement 成就\nactually 实际上\nadapt 适应\naddition 添加\naddress 地址\nadequate 足够的\nadjust 调整\nadministration 政府\nadmit 承认\nadopt 采用\nadvance 推进\nadventure 冒险\nadvertise 做广告\nadvocate 提倡\naffair 事件\naffect 影响\nagenda 议程\naid 援助\naim 目的\nalarm 警报\nallergic 过敏的\namazing 令人惊异的\nambition 雄心壮志\namusing 有趣的\nanger 愤怒\nangry 愤怒\nannoy 骚扰\nannoyed 生气\nannoying 烦人的\nanxiety 焦虑\nanxious 焦虑\napart 分开\napologize 道歉\napology 道歉\nappeal 上诉\nappearance 外观\napplication 应用程序\napply 应用\nappoint 任命\nappreciation 欣赏\nappreciate 欣赏\napproach 方法\narrange 安排\narrangement 安排\nashamed 羞愧\naside 一边\nassess 评估\nassist 协助\nassume 假设\nassure 保证\nastonish 使惊讶\nattempt 尝试\nattention 注意\nattitude 态度\nautomatic 自动\nautomatically 自动\navoid 避免\nawkward 尴尬的\nB\nban 禁止\nbehave 表现\nbelief 信仰\nbeneficial 有益的\nbenefit 利益\nbesides 此外\nblame 责备\nblank 空白\nborder 边境\nbrand 品牌\nbravery 勇敢\nbrief 短暂的\nbudget 预算\nburden 负担\nbutton 纽扣\nC\ncalculate 计算\ncase 情况\ncast 投\ncasually 随便\ncautious 谨慎的\ncharge 负责\nclarify 澄清\ncolleague 同事\ncomb 梳子\ncomment 评论\ncompany 公司\ncompare 比较\ncomparison 比较\ncompetitor 竞争对手\ncomplex 复杂的\ncomplicated 复杂化\nconcern 关注\nconcerned 关注的\nconcerning 有关\ncondition 条件\nconduct 实施\nconfirm 确认\nconfuse 混淆\nconfused 困惑的\nconfirmed 确认\nconsequently 因此\nconsequence 结果\nconsideration 考虑\ncontent 内容\ncontrast 对比\ncontribute 贡献\ncontribution 贡献\nconvenient 方便的\nconvincing 令人信服的\ncourse 课程\ncover 封面\ncrisis 危机\ncritical 关键的\ncure 治愈\ncuriosity 好奇心\ncurious 好奇的\ncurtain 窗帘\ncushion 垫子\ncustom 风俗\ncustoms 海关\nD\ndamage 损害\ndeal 交易\ndeal with 处理\ndebate 辩论\ndecline 下降\ndecrease 减少\ndeclare 声明\ndecorate 装修\ndefeat 失败\ndelight 高兴\ndelighted 高兴的\ndeliver 交付\ndemand 需求\ndeny 否认\ndeserve 值得\ndesire 欲望\ndespite 尽管\ndetermine 确定\ndetermined 坚定的\ndiagnose 诊断\ndiet 饮食\ndigest 消化\ndisappointing 令人失望的\ndisaster 灾难\ndistance 距离\ndistant 遥远的\ndistribute 分发\ndivide 分\ndonate 捐赠\ndrop 下降\nE\nearn 赚\nefficient 有效率的\neffort 努力\nencouragement 鼓励\nenthusiastic 热情的\nerupt 爆发\nevaluate 评估\neventually 最终\nexcite 兴奋\nexpand 膨胀\nexpectation 期望\nexpense 费用\nexperienced 有经验的\nexplore 探索\nexpose to 暴露于\nexpress 表达\nextreme 极端的\nextremely 极端的\nF\nfair 公平的\nfamiliar 熟悉的\nfavour 喜爱\nfilling 填充物\nfirm 公司\nfocus 焦点\nforbid 禁止\nforbidding 冷峻的\nforce 强迫\nforgive 原谅\nform 形式\nformal 正式的\nfortune 财富\nforward 向前\nfrequently 频繁地\nfrustration 挫折\nfundamental 基本的\nG\ngather 收集\ngenerally 一般地\ngenerous 慷慨的\ngentle 温柔的\nget away 离开\nget through 度过\ngive in 屈服\ngive way to 让步\ngiven 鉴于\ngovernment 政府\ngradually 逐渐地\ngrateful 感激的\nguidance 指导\nH\nharmful 有害的\nhesitate 犹豫\nhesitation 犹豫\nhide 隐藏\nhunt 打猎\nI\nidentify 识别\nidentity 身份\nignore 忽略\nillegal 非法的\nimagination 想象力\nimpact 影响\nimmediately 立即\nimpression 印象\nimpose 强加\nindependent 独立的\nindeed 的确\nineffective 无效的\ninevitable 不可避免的\ningredient 成分\ninitial 最初的\ninspiration 灵感\ninstead of 而不是\ninstruct 指导\nintelligent 聪明的\nintend 打算\nintention 意图\ninterrupt 中断\ninterview 面试\nintroduce 介绍\ninvest 投资\ninvitation 邀请\nJ\njob 工作\njudge 法官\nK\nkeep up 保持\nL\nlack 缺乏\nlast 最后的\nlawful 合法的\nlay 放置\nlimit 限制\nlonging 渴望\nloss 损失\nM\nmaintain 维护\nmake up 组成\nmanage 管理\nmatter 问题\nmean 意思是\nmeasure 测量\nmerely 仅仅是\nmethod 方法\nmidnight 半夜\nmisfortune 不幸\nmiss 错过\nmission 任务\nmodest 适度的\nmoreover 此外\nmovement 运动\nmoving 移动\nN\nnaturally 自然地\nnegotiate 谈判\nneglect 忽视\nniece 侄女\nnormal 正常的\nO\nobserve 观察\nobvious 明显的\noccasion 场合\noccasionally 偶尔\noccupation 占领\noccupy 占领\noccur 发生\non purpose 故意\noperation 手术\noperator 接线员\nopportunity 机会\norder 订单\notherwise 否则\nowe 欠\nP\npainful 痛苦的\npale 苍白的\npart 部分\npassion 激情\npassive 被动的\npatience 耐心\npay off 偿还\nperform 执行\npermission 许可\npermit 许可证\npersuade 说服\npick up 捡起\nplain 平原\npleased 高兴的\npocket 口袋\npolicy 政策\npositive 积极的\npossess 拥有\npost 帖子\npostpone 推迟\npractical 实用的\npraise 赞美\npredict 预测\npreparation 准备\nprepare 准备\npreserve 保存\npressure 压力\npretend 假装\nprevention 预防\npride 骄傲\nprinciple 原则\nprint 打印\npriority 优先权\nprivilege 特权\nprocedure 过程\nprocess 过程\nprofit 利润\nproject 项目\npromote 促进\nprotection 保护\npublic 公众的\npurpose 目的\nput forward 提出\nput into 使进入\nput off 推迟\nput up 建造\npuzzle 谜\nQ\nquit 辞职\nR\nrail 铁路\nraise 提高\nrandom 随机的\nrapidly 迅速地\nreact 反应\nreaction 反应\nreader 读者\nrecommend 推荐\nrecording 录音\nrecover 恢复\nrecovery 复苏\nrefer 提到\nrefer to 指的是\nrefuse 拒绝\nregardless 不顾\nregardless of 不管\nregister 注册\nregular 常规的\nregularly 定期\nreject 拒绝\nrelationship 关系\nrelative 相对的\nreliable 可靠的\nrelief 救济\nrelieved 感到宽慰的\nreligious 宗教的\nrely 依赖\nrely on 依靠\nremain 保持\nremote 遥远的\nremove 删除\nrepair 修复\nreplace 取代\nreply 回复\nreputation 声誉\nrequire 需要\nrescue 救援\nresistant 抵抗的\nrespect 尊重\nrespond 回应\nrest 休息\nreward 奖励\nridiculous 荒谬的\nroll 滚动\nroughly 粗糙地\nrunning 连续的\nS\nsales 销售额\nsatisfied 满意\nsaying 谚语\nscene 场景\nsecretly 秘密地\nseek 寻求\nselect 选择\nsensitive 敏感的\nseparation 分离\nseparately 分别地\nserious 严重的\nserve 服务\nservice 服务\nset off 出发\nsettle 解决\nsetting 设置\nsharp 锋利的\nshow up 出现\nsight 视线\nsignal 信号\nsimilarity 相似性\nsink 下沉\nsite 地点\nsituation 情况\nspoil 破坏\nspot 地点\nstare 凝视\nstate 状态\nsteady 稳定的\nsuffering 痛苦\nsuitable 合适的\nsupporting 支持的\nT\ntask 任务\nthreat 威胁\nthrill 激动\ntire 疲劳\ntiring 令人疲劳的\ntouch 触摸\ntreat 治疗\ntremble 颤抖\ntrust 信任\nturn into 变成\nU\nunique 独特的\nupsetting 令人心烦的\nurge 催促\nV\nview 视野\nW\nwallet 钱包\nwisdom 智慧\nwitness 见证\nempty 空的\norigin 起源\nsick 生病的\nquality 质量\nexperience 经验\nappointment 任命\ntemporarily 暂时\nmatch 匹配\nbother 麻烦\nrock 岩石\ndemanding 苛刻的\nrange 范围\ncampaign 运动\ndetail 细节\nartificial 人工\ncomfort 安慰\nexperiment 实验\nenergetic 精力充沛的\ninnocent 无辜的\nrecite 背诵\nestimate 估计\nboard 董事会\nurgent 紧急的\nbury 埋葬\nfortunate 幸运的\nrepeat 重复\nthus 因此\natmosphere 大气层\ncertain 某些\nescape 逃避\ndegree 学位\ntough 艰难的\nloose 宽松的\nsacrifice 牺牲\ncome across 遇到\nbrain 大脑\ndeveloped 发达的\nbeyond 超过\nabuse 滥用\nprivate 私人的\nevent 事件\ndeveloping 发展中的\nfrequent 频繁的\naware 意识到\ndirection 方向\nattract 吸引\nincrease 增加\nbeg 请求\nrisk 风险\nreference 参考\ndesign 设计\nnest 巢\ndiscourage 阻碍\ndefine 定义\nrecognize 识别\nprogress 进步\nwhisper 耳语\nreduce 减少\ncrash 碰撞\nexplode 爆炸\nmemory 内存\ndistinguish 区分\nregulation 法规\ndirectly 直接的\nattractive 有吸引力的\nexpose 暴露\nrequest 请求\ncontrary 相反\nabsence 缺席\nconsult 咨询\nin need of 需要\nevidence 证据\nclaim 索赔\nmotivation 动机\nrose 玫瑰\nlasting 持久的\nease 缓解\nreasonable 合理的\nfunction 功能\ndelay 延迟\nabandoned 被遗弃的\npromise 承诺\nabundant 丰富的\nperformance 性能\nstrike 罢工\nhard 努力的\ncontinue 继续\nconvince 说服\nnegative 消极的\naccent 口音\nabsorb 吸收\ndestination 目的地\nexplanation 解释\ncomplain 抱怨\nsuppose 猜想\nrecipe 烹饪法\nfantastic 很棒的\napplicant 申请人\nmidday 中午\nalley 小巷\ninstitution 公共机构\nsculpture 雕塑\naccuse 指控\nglove 手套\npowder 粉末\ninstrument 工具\nlantern 灯笼\nsession 一段时间\ncorporation 大公司\nkettle 水壶\npatent 专利\nairspace 领空\ndawn 黎明\naccount 账目\nstocking 长筒袜\ncompulsory 强制的\nmillimeter 毫米\ngale 强风\ncottage 郊外小屋\nstruggle 斗争\nradiation 放射物`;
+    let currentLines = FULL_WORD_RAW.split('\n').filter(l=>l.trim()!=="");
+    function renderModalWordList() { let kw=document.getElementById('modalSearchInput').value.trim().toLowerCase(); let filtered=kw===""?currentLines:currentLines.filter(l=>l.toLowerCase().includes(kw)); let resDiv=document.getElementById('modalResults'); if(filtered.length===0) resDiv.innerHTML='<div>🔍 无匹配单词</div>'; else resDiv.innerText=filtered.join('\n'); document.getElementById('modalTotalCount').innerText=currentLines.length; document.getElementById('modalDisplayCount').innerHTML=kw?`匹配 "${kw}"`:'全部'; }
+    function saveModalToLocal() { localStorage.setItem('myWordListV2', JSON.stringify(currentLines)); }
+    function modalAddWord() { let en=document.getElementById('modalNewWordEn').value.trim(), zh=document.getElementById('modalNewWordZh').value.trim(); if(!en||!zh) { alert('完整填写'); return; } let newEntry=`${en} ${zh}`; let firstUpper=en.charAt(0).toUpperCase(); let headerIdx=-1; for(let i=0;i<currentLines.length;i++) if(/^[A-Z]$/.test(currentLines[i].trim())&&currentLines[i].trim()===firstUpper) { headerIdx=i; break; } if(headerIdx===-1) { for(let i=0;i<currentLines.length;i++) if(/^[A-Z]$/.test(currentLines[i].trim())&&currentLines[i].trim()>firstUpper) { headerIdx=i; break; } if(headerIdx===-1) headerIdx=currentLines.length; currentLines.splice(headerIdx,0,firstUpper); headerIdx++; } let insertIdx=headerIdx+1; while(insertIdx<currentLines.length && !/^[A-Z]$/.test(currentLines[insertIdx].trim()) && currentLines[insertIdx].split(' ')[0].localeCompare(en,undefined,{sensitivity:'base'})<0) insertIdx++; currentLines.splice(insertIdx,0,newEntry); document.getElementById('modalNewWordEn').value=''; document.getElementById('modalNewWordZh').value=''; saveModalToLocal(); renderModalWordList(); showToast(`✅ 添加: ${newEntry}`); }
+    function exportModalTxt() { let blob=new Blob([currentLines.join('\n')],{type:'text/plain'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`wordlist_${new Date().toISOString().slice(0,10)}.txt`; a.click(); URL.revokeObjectURL(a.href); showToast("导出成功"); }
+    function initWordModal() { const modal=document.getElementById('wordModal'); document.getElementById('openWordModalBtn').onclick=()=>{ modal.style.display='flex'; renderModalWordList(); }; document.getElementById('closeWordModalBtn').onclick=()=>modal.style.display='none'; window.onclick=e=>{ if(e.target===modal) modal.style.display='none'; }; document.getElementById('modalToggleAddBtn').onclick=()=>document.getElementById('modalAddPanel').style.display='block'; document.getElementById('modalCloseAddBtn').onclick=()=>document.getElementById('modalAddPanel').style.display='none'; document.getElementById('modalSaveWordBtn').onclick=modalAddWord; document.getElementById('modalResetBtn').onclick=()=>{ document.getElementById('modalSearchInput').value=''; renderModalWordList(); }; document.getElementById('modalExportBtn').onclick=exportModalTxt; document.getElementById('modalSearchInput').addEventListener('input',renderModalWordList); let saved=localStorage.getItem('myWordListV2'); if(saved){ let arr=JSON.parse(saved); if(arr.length) currentLines=arr; } renderModalWordList(); }
+
+    // 初始化
+    buildProjectCards("all"); initFilter(); initCopyQQ(); initFakeReply(); initCrazyBtn();
+    document.getElementById('generateBullshitBtn').addEventListener('click',generateBullshit);
+    document.getElementById('randomStatsBtn').addEventListener('click',randomStats);
+    randomStats(); generateBullshit();
+    document.getElementById('genFortuneBtn').addEventListener('click',genFortune);
+    document.getElementById('bgSwitchBtn').addEventListener('click',switchBg);
+    document.getElementById('bossKeyBtn').addEventListener('click',toggleBossMode);
+    renderVotes(); initWordModal(); loadAchievements();
+    document.getElementById('citeMeBtn').addEventListener('click',()=>{ navigator.clipboard.writeText(`@article{zhaoyuxuan2026, title={基于0个手法的无边界美学}, author={Zhao, Yuxuan}, journal={Journal of Humorous Computing}, year={2026} }`); showToast("📚 已复制 BibTeX 引用"); });
+    document.getElementById('clearAchieveBtn').addEventListener('click',()=>{ achievementCount={ bullshitGen:0,themeToggle:0,qqCopy:0,statRandom:0 }; localStorage.removeItem('achievements'); updateAchievements(); showToast("成就已重置"); });
+    // 主题暗金切换
+    document.getElementById('themeSwitcher').addEventListener('click',function(){ document.body.classList.toggle('dark-mode'); let isDark=document.body.classList.contains('dark-mode'); localStorage.setItem('theme',isDark?'dark':'light'); this.innerText=isDark?'☀️ 亮金':'🌙 暗金'; showToast(isDark?"🌙 暗金模式":"☀️ 亮金模式"); incAchieve('themeToggle'); });
+    if(localStorage.getItem('theme')==='dark') { document.body.classList.add('dark-mode'); document.getElementById('themeSwitcher').innerText='☀️ 亮金'; }
+</script>
+</body>
+</html>
